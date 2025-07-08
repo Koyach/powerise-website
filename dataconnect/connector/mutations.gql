@@ -1,0 +1,284 @@
+# # Example mutations for a simple movie app
+
+# # Create a movie based on user input
+# mutation CreateMovie($title: String!, $genre: String!, $imageUrl: String!)
+# @auth(level: USER_EMAIL_VERIFIED) {
+#   movie_insert(data: { title: $title, genre: $genre, imageUrl: $imageUrl })
+# }
+
+# # Upsert (update or insert) a user's username based on their auth.uid
+# mutation UpsertUser($username: String!) @auth(level: USER) {
+#   # The "auth.uid" server value ensures that users can only register their own user.
+#   user_upsert(data: { id_expr: "auth.uid", username: $username })
+# }
+
+# # Add a review for a movie
+# mutation AddReview($movieId: UUID!, $rating: Int!, $reviewText: String!)
+# @auth(level: USER) {
+#   review_upsert(
+#     data: {
+#       userId_expr: "auth.uid"
+#       movieId: $movieId
+#       rating: $rating
+#       reviewText: $reviewText
+#       # reviewDate defaults to today in the schema. No need to set it manually.
+#     }
+#   )
+# }
+
+# # Logged in user can delete their review for a movie
+# mutation DeleteReview($movieId: UUID!) @auth(level: USER) {
+#   # The "auth.uid" server value ensures that users can only delete their own reviews.
+#   review_delete(key: { userId_expr: "auth.uid", movieId: $movieId })
+# }
+
+# Powerise Website Mutations
+
+# User management
+mutation UpsertUser($displayName: String) @auth(level: USER) {
+  user_upsert(data: { 
+    id_expr: "auth.uid"
+    email_expr: "auth.token.email"
+    displayName: $displayName 
+  })
+}
+
+mutation UpdateUserRole($userId: String!, $role: UserRole!) @auth(level: USER) {
+  user_update(
+    key: { id: $userId }
+    data: { 
+      role: $role
+      updatedAt_expr: "request.time"
+    }
+  )
+}
+
+mutation ToggleUserStatus($userId: String!, $isActive: Boolean!) @auth(level: USER) {
+  user_update(
+    key: { id: $userId }
+    data: { 
+      isActive: $isActive
+      updatedAt_expr: "request.time"
+    }
+  )
+}
+
+# News management
+mutation CreateNews(
+  $title: String!
+  $slug: String!
+  $content: String!
+  $excerpt: String
+  $featuredImage: String
+  $category: NewsCategory!
+  $status: ContentStatus!
+  $publishedAt: Date
+  $tags: String
+  $metaTitle: String
+  $metaDescription: String
+) @auth(level: USER) {
+  news_insert(data: {
+    title: $title
+    slug: $slug
+    content: $content
+    excerpt: $excerpt
+    featuredImage: $featuredImage
+    category: $category
+    status: $status
+    publishedAt: $publishedAt
+    tags: $tags
+    metaTitle: $metaTitle
+    metaDescription: $metaDescription
+    authorId_expr: "auth.uid"
+  })
+}
+
+mutation UpdateNews(
+  $id: UUID!
+  $title: String!
+  $slug: String!
+  $content: String!
+  $excerpt: String
+  $featuredImage: String
+  $category: NewsCategory!
+  $status: ContentStatus!
+  $publishedAt: Date
+  $tags: String
+  $metaTitle: String
+  $metaDescription: String
+) @auth(level: USER) {
+  news_update(
+    key: { id: $id }
+    data: {
+      title: $title
+      slug: $slug
+      content: $content
+      excerpt: $excerpt
+      featuredImage: $featuredImage
+      category: $category
+      status: $status
+      publishedAt: $publishedAt
+      tags: $tags
+      metaTitle: $metaTitle
+      metaDescription: $metaDescription
+      updatedAt_expr: "request.time"
+    }
+  )
+}
+
+mutation DeleteNews($id: UUID!) @auth(level: USER) {
+  news_delete(key: { id: $id })
+}
+
+mutation IncrementNewsViews($id: UUID!) @auth(level: PUBLIC) {
+  news_update(
+    key: { id: $id }
+    data: { views_expr: "views + 1" }
+  )
+}
+
+# Page management
+mutation CreatePage(
+  $title: String!
+  $slug: String!
+  $content: String!
+  $metaTitle: String
+  $metaDescription: String
+  $status: ContentStatus!
+  $template: PageTemplate!
+) @auth(level: USER) {
+  page_insert(data: {
+    title: $title
+    slug: $slug
+    content: $content
+    metaTitle: $metaTitle
+    metaDescription: $metaDescription
+    status: $status
+    template: $template
+    authorId_expr: "auth.uid"
+  })
+}
+
+mutation UpdatePage(
+  $id: UUID!
+  $title: String!
+  $slug: String!
+  $content: String!
+  $metaTitle: String
+  $metaDescription: String
+  $status: ContentStatus!
+  $template: PageTemplate!
+) @auth(level: USER) {
+  page_update(
+    key: { id: $id }
+    data: {
+      title: $title
+      slug: $slug
+      content: $content
+      metaTitle: $metaTitle
+      metaDescription: $metaDescription
+      status: $status
+      template: $template
+      updatedAt_expr: "request.time"
+    }
+  )
+}
+
+mutation DeletePage($id: UUID!) @auth(level: USER) {
+  page_delete(key: { id: $id })
+}
+
+# Inquiry management
+mutation CreateInquiry(
+  $name: String!
+  $email: String!
+  $company: String
+  $phone: String
+  $subject: String!
+  $message: String!
+  $category: InquiryCategory!
+) @auth(level: PUBLIC) {
+  inquiry_insert(data: {
+    name: $name
+    email: $email
+    company: $company
+    phone: $phone
+    subject: $subject
+    message: $message
+    category: $category
+  })
+}
+
+mutation UpdateInquiryStatus(
+  $id: UUID!
+  $status: InquiryStatus!
+  $priority: InquiryPriority
+  $assignedToId: String
+  $adminNotes: String
+) @auth(level: USER) {
+  inquiry_update(
+    key: { id: $id }
+    data: {
+      status: $status
+      priority: $priority
+      assignedToId: $assignedToId
+      adminNotes: $adminNotes
+      updatedAt_expr: "request.time"
+      respondedAt_expr: "request.time"
+    }
+  )
+}
+
+mutation AssignInquiry($id: UUID!, $assignedToId: String!) @auth(level: USER) {
+  inquiry_update(
+    key: { id: $id }
+    data: {
+      assignedToId: $assignedToId
+      status: "IN_PROGRESS"
+      updatedAt_expr: "request.time"
+    }
+  )
+}
+
+mutation DeleteInquiry($id: UUID!) @auth(level: USER) {
+  inquiry_delete(key: { id: $id })
+}
+
+# Site configuration
+mutation UpsertSiteConfig(
+  $key: String!
+  $value: String!
+  $description: String
+  $category: String!
+  $isPublic: Boolean!
+) @auth(level: USER) {
+  siteConfig_upsert(data: {
+    key: $key
+    value: $value
+    description: $description
+    category: $category
+    isPublic: $isPublic
+    updatedById_expr: "auth.uid"
+  })
+}
+
+mutation DeleteSiteConfig($id: UUID!) @auth(level: USER) {
+  siteConfig_delete(key: { id: $id })
+}
+
+# Analytics
+mutation TrackPageView(
+  $page: String!
+  $userAgent: String
+  $ipAddress: String
+  $referrer: String
+  $sessionId: String
+) @auth(level: PUBLIC) {
+  analytics_insert(data: {
+    page: $page
+    userAgent: $userAgent
+    ipAddress: $ipAddress
+    referrer: $referrer
+    sessionId: $sessionId
+  })
+}

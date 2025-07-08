@@ -1,0 +1,86 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Allow authenticated users to read/write their own user data
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+    
+    // News/Announcements - Public read, authenticated write
+    match /news/{newsId} {
+      allow read: if true; // Anyone can read news
+      allow create, update, delete: if request.auth != null; // Only authenticated users can manage
+      
+      // Validate news document structure
+      allow write: if request.auth != null
+        && validateNewsFields(resource.data)
+        && hasRequiredNewsFields(resource.data);
+    }
+    
+    // Static Pages - Public read, authenticated write
+    match /pages/{pageId} {
+      allow read: if true; // Anyone can read pages
+      allow create, update, delete: if request.auth != null; // Only authenticated users can manage
+      
+      // Validate page document structure
+      allow write: if request.auth != null
+        && validatePageFields(resource.data)
+        && hasRequiredPageFields(resource.data);
+    }
+    
+    // Inquiries - Anyone can create, only authenticated can manage
+    match /inquiries/{inquiryId} {
+      allow create: if true; // Anyone can submit inquiries
+      allow read, update, delete: if request.auth != null; // Only authenticated users can manage
+      
+      // Validate inquiry document structure
+      allow create: if validateInquiryFields(resource.data)
+        && hasRequiredInquiryFields(resource.data);
+    }
+    
+    // Admin-only collections
+    match /admin/{document=**} {
+      allow read, write: if request.auth != null
+        && request.auth.token.admin == true; // Custom claim for admin users
+    }
+  }
+  
+  // Validation functions for News
+  function hasRequiredNewsFields(data) {
+    return data.keys().hasAll(['title', 'content', 'createdAt', 'published']);
+  }
+  
+  function validateNewsFields(data) {
+    return data.title is string
+      && data.content is string
+      && data.published is bool
+      && data.createdAt is timestamp;
+  }
+  
+  // Validation functions for Pages
+  function hasRequiredPageFields(data) {
+    return data.keys().hasAll(['title', 'content', 'slug', 'published']);
+  }
+  
+  function validatePageFields(data) {
+    return data.title is string
+      && data.content is string
+      && data.slug is string
+      && data.published is bool;
+  }
+  
+  // Validation functions for Inquiries
+  function hasRequiredInquiryFields(data) {
+    return data.keys().hasAll(['name', 'email', 'message', 'createdAt']);
+  }
+  
+  function validateInquiryFields(data) {
+    return data.name is string
+      && data.email is string
+      && data.message is string
+      && data.createdAt is timestamp
+      && data.name.size() > 0
+      && data.email.size() > 0
+      && data.message.size() > 0;
+  }
+} 

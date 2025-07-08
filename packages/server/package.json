@@ -1,0 +1,40 @@
+{
+  "name": "@powerise/server",
+  "version": "1.0.0",
+  "description": "Powerise website backend - Express API server",
+  "private": true,
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "clean": "rm -rf dist",
+    "lint": "echo 'Server linting will be configured later'",
+    "type-check": "tsc --noEmit"
+  },
+  "keywords": [
+    "powerise",
+    "backend",
+    "express",
+    "api",
+    "firebase",
+    "typescript"
+  ],
+  "author": "Powerise Team",
+  "license": "MIT",
+  "packageManager": "pnpm@10.12.4",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.6.0",
+    "express": "^5.1.0",
+    "firebase-admin": "^13.4.0",
+    "zod": "^3.25.67"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.3",
+    "@types/node": "^24.0.4",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.8.3"
+  }
+}

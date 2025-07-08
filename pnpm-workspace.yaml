@@ -1,0 +1,5 @@
+packages:
+  - packages/*
+
+overrides:
+  '@firebasegen/default-connector': link:dataconnect-generated/js/default-connector

@@ -1,0 +1,366 @@
+# # Example queries for a simple movie app.
+
+# # @auth() directives control who can call each operation.
+# # Anyone should be able to list all movies, so the auth level is set to PUBLIC
+# query ListMovies @auth(level: PUBLIC) {
+#   movies {
+#     id
+#     title
+#     imageUrl
+#     genre
+#   }
+# }
+
+# # List all users, only admins should be able to list all users, so we use NO_ACCESS
+# query ListUsers @auth(level: NO_ACCESS) {
+#   users {
+#     id
+#     username
+#   }
+# }
+
+# # Logged in users can list all their reviews and movie titles associated with the review
+# # Since the query uses the uid of the current authenticated user, we set auth level to USER
+# query ListUserReviews @auth(level: USER) {
+#   user(key: { id_expr: "auth.uid" }) {
+#     id
+#     username
+#     # <field>_on_<foreign_key_field> makes it easy to grab info from another table
+#     # Here, we use it to grab all the reviews written by the user.
+#     reviews: reviews_on_user {
+#       rating
+#       reviewDate
+#       reviewText
+#       movie {
+#         id
+#         title
+#       }
+#     }
+#   }
+# }
+
+# # Get movie by id
+# query GetMovieById($id: UUID!) @auth(level: PUBLIC) {
+#   movie(id: $id) {
+#     id
+#     title
+#     imageUrl
+#     genre
+#     metadata: movieMetadata_on_movie {
+#       rating
+#       releaseYear
+#       description
+#     }
+#     reviews: reviews_on_movie {
+#       reviewText
+#       reviewDate
+#       rating
+#       user {
+#         id
+#         username
+#       }
+#     }
+#   }
+# }
+
+# # Search for movies, actors, and reviews
+# query SearchMovie($titleInput: String, $genre: String) @auth(level: PUBLIC) {
+#   movies(
+#     where: {
+#       _and: [{ genre: { eq: $genre } }, { title: { contains: $titleInput } }]
+#     }
+#   ) {
+#     id
+#     title
+#     genre
+#     imageUrl
+#   }
+# }
+
+# Powerise Website Queries
+
+# Public queries for website content
+query ListPublishedNews($limit: Int = 10, $offset: Int = 0, $category: NewsCategory) @auth(level: PUBLIC) {
+  news(
+    where: { 
+      _and: [
+        { status: { eq: "PUBLISHED" } }
+        { category: { eq: $category } }
+      ] 
+    }
+    limit: $limit
+    offset: $offset
+    orderBy: { publishedAt: DESC }
+  ) {
+    id
+    title
+    slug
+    excerpt
+    featuredImage
+    category
+    publishedAt
+    views
+    author {
+      displayName
+    }
+  }
+}
+
+query GetNewsBySlug($slug: String!) @auth(level: PUBLIC) {
+  news(where: { slug: { eq: $slug } }, limit: 1) {
+    id
+    title
+    slug
+    content
+    excerpt
+    featuredImage
+    category
+    publishedAt
+    views
+    metaTitle
+    metaDescription
+    author {
+      displayName
+    }
+  }
+}
+
+query GetPageBySlug($slug: String!) @auth(level: PUBLIC) {
+  page(where: { slug: { eq: $slug } }, limit: 1) {
+    id
+    title
+    slug
+    content
+    metaTitle
+    metaDescription
+    template
+  }
+}
+
+query GetPublicSiteConfig @auth(level: PUBLIC) {
+  siteConfigs(where: { isPublic: { eq: true } }) {
+    key
+    value
+    category
+  }
+}
+
+# Admin queries
+query ListAllNews($limit: Int = 20, $offset: Int = 0, $status: ContentStatus) @auth(level: USER) {
+  news(
+    where: { status: { eq: $status } }
+    limit: $limit
+    offset: $offset
+    orderBy: { updatedAt: DESC }
+  ) {
+    id
+    title
+    slug
+    excerpt
+    featuredImage
+    category
+    status
+    publishedAt
+    createdAt
+    updatedAt
+    views
+    author {
+      id
+      displayName
+      email
+    }
+  }
+}
+
+query GetNewsById($id: UUID!) @auth(level: USER) {
+  news(where: { id: { eq: $id } }, limit: 1) {
+    id
+    title
+    slug
+    content
+    excerpt
+    featuredImage
+    category
+    status
+    publishedAt
+    createdAt
+    updatedAt
+    views
+    tags
+    metaTitle
+    metaDescription
+    author {
+      id
+      displayName
+      email
+    }
+  }
+}
+
+query ListAllPages($limit: Int = 20, $offset: Int = 0) @auth(level: USER) {
+  pages(
+    limit: $limit
+    offset: $offset
+    orderBy: { updatedAt: DESC }
+  ) {
+    id
+    title
+    slug
+    status
+    template
+    createdAt
+    updatedAt
+    author {
+      id
+      displayName
+      email
+    }
+  }
+}
+
+query GetPageById($id: UUID!) @auth(level: USER) {
+  page(where: { id: { eq: $id } }, limit: 1) {
+    id
+    title
+    slug
+    content
+    metaTitle
+    metaDescription
+    status
+    template
+    createdAt
+    updatedAt
+    author {
+      id
+      displayName
+      email
+    }
+  }
+}
+
+query ListInquiries($limit: Int = 20, $offset: Int = 0, $status: InquiryStatus) @auth(level: USER) {
+  inquiries(
+    where: { status: { eq: $status } }
+    limit: $limit
+    offset: $offset
+    orderBy: { createdAt: DESC }
+  ) {
+    id
+    name
+    email
+    company
+    phone
+    subject
+    category
+    status
+    priority
+    createdAt
+    updatedAt
+    respondedAt
+    assignedTo {
+      id
+      displayName
+      email
+    }
+  }
+}
+
+query GetInquiryById($id: UUID!) @auth(level: USER) {
+  inquiry(where: { id: { eq: $id } }, limit: 1) {
+    id
+    name
+    email
+    company
+    phone
+    subject
+    message
+    category
+    status
+    priority
+    createdAt
+    updatedAt
+    respondedAt
+    adminNotes
+    assignedTo {
+      id
+      displayName
+      email
+    }
+  }
+}
+
+query ListUsers($limit: Int = 20, $offset: Int = 0, $role: UserRole) @auth(level: USER) {
+  users(
+    where: { role: { eq: $role } }
+    limit: $limit
+    offset: $offset
+    orderBy: { createdAt: DESC }
+  ) {
+    id
+    email
+    displayName
+    role
+    isActive
+    createdAt
+    updatedAt
+  }
+}
+
+query GetUserById($id: String!) @auth(level: USER) {
+  user(where: { id: { eq: $id } }, limit: 1) {
+    id
+    email
+    displayName
+    role
+    isActive
+    createdAt
+    updatedAt
+  }
+}
+
+query GetCurrentUser @auth(level: USER) {
+  user(key: { id_expr: "auth.uid" }) {
+    id
+    email
+    displayName
+    role
+    isActive
+    createdAt
+    updatedAt
+  }
+}
+
+query ListSiteConfigs($category: String) @auth(level: USER) {
+  siteConfigs(
+    where: { category: { eq: $category } }
+    orderBy: { key: ASC }
+  ) {
+    id
+    key
+    value
+    description
+    category
+    isPublic
+    updatedAt
+    updatedBy {
+      displayName
+    }
+  }
+}
+
+query GetAnalytics($startDate: Date!, $endDate: Date!) @auth(level: USER) {
+  analytics(
+    where: {
+      _and: [
+        { timestamp: { gte: $startDate } }
+        { timestamp: { lte: $endDate } }
+      ]
+    }
+    orderBy: { timestamp: DESC }
+  ) {
+    id
+    page
+    timestamp
+    referrer
+  }
+}
