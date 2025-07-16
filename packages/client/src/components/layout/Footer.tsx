@@ -48,18 +48,18 @@ export const Footer: React.FC = () => {
     <Box
       component="footer"
       sx={{
-        backgroundColor: theme.palette.primary.main,
-        color: 'white',
+        backgroundColor: '#FAFAFA',
+        borderTop: '1px solid rgba(44, 62, 80, 0.08)',
         mt: 'auto',
       }}
     >
       <Container maxWidth="lg">
-        <Box sx={{ py: 6 }}>
+        <Box sx={{ py: 12 }}>
           <Box
             sx={{
               display: 'flex',
               flexDirection: { xs: 'column', md: 'row' },
-              gap: { xs: 4, md: 6 },
+              gap: { xs: 8, md: 12 },
             }}
           >
             {/* ロゴとコンパニー情報 */}
@@ -70,16 +70,31 @@ export const Footer: React.FC = () => {
                 sx={{
                   fontFamily: 'Montserrat, sans-serif',
                   fontWeight: 700,
-                  mb: 2,
+                  mb: 4,
+                  color: theme.palette.text.primary,
                 }}
               >
                 POWERISE
               </Typography>
-              <Typography variant="body2" sx={{ mb: 2, lineHeight: 1.8 }}>
-                エネルギーとインフラの力で、<br />
+              <Typography 
+                variant="body1" 
+                sx={{ 
+                  mb: 4, 
+                  lineHeight: 1.8,
+                  color: theme.palette.text.primary,
+                }}
+              >
+                エネルギーとインフラの力で、
+                <br />
                 持続可能な社会の実現を目指します。
               </Typography>
-              <Typography variant="body2" sx={{ opacity: 0.8 }}>
+              <Typography 
+                variant="body2" 
+                sx={{ 
+                  color: theme.palette.text.secondary,
+                  lineHeight: 1.8,
+                }}
+              >
                 一般社団法人パワライズ
                 <br />
                 〒100-0001 東京都千代田区千代田1-1-1
@@ -94,7 +109,7 @@ export const Footer: React.FC = () => {
                 flex: '3',
                 display: 'flex',
                 flexDirection: { xs: 'column', sm: 'row' },
-                gap: { xs: 4, sm: 6 },
+                gap: { xs: 6, sm: 8 },
               }}
             >
               {Object.entries(footerLinks).map(([key, section]) => (
@@ -103,16 +118,17 @@ export const Footer: React.FC = () => {
                     variant="h6"
                     component="div"
                     sx={{
-                      mb: 2,
+                      mb: 3,
                       fontSize: '1rem',
                       fontWeight: 600,
+                      color: theme.palette.text.primary,
                     }}
                   >
                     {section.title}
                   </Typography>
                   <Box component="ul" sx={{ listStyle: 'none', p: 0, m: 0 }}>
                     {section.links.map((link) => (
-                      <Box component="li" key={link.href} sx={{ mb: 1 }}>
+                      <Box component="li" key={link.href} sx={{ mb: 2 }}>
                         <MuiLink
                           component={Link}
                           href={link.href}
@@ -120,10 +136,10 @@ export const Footer: React.FC = () => {
                           underline="none"
                           sx={{
                             fontSize: '0.875rem',
-                            opacity: 0.8,
-                            transition: 'opacity 0.2s',
+                            color: theme.palette.text.secondary,
+                            transition: 'color 0.2s',
                             '&:hover': {
-                              opacity: 1,
+                              color: theme.palette.secondary.main,
                               textDecoration: 'underline',
                             },
                           }}
@@ -139,23 +155,28 @@ export const Footer: React.FC = () => {
           </Box>
         </Box>
 
-        <Divider sx={{ borderColor: 'rgba(255, 255, 255, 0.2)' }} />
+        <Divider sx={{ borderColor: 'rgba(44, 62, 80, 0.08)' }} />
 
         {/* コピーライト */}
         <Box
           sx={{
-            py: 3,
+            py: 6,
             display: 'flex',
             flexDirection: { xs: 'column', sm: 'row' },
             justifyContent: 'space-between',
             alignItems: 'center',
-            gap: 2,
+            gap: 4,
           }}
         >
-          <Typography variant="body2" sx={{ opacity: 0.7 }}>
+          <Typography 
+            variant="body2" 
+            sx={{ 
+              color: theme.palette.text.secondary,
+            }}
+          >
             © 2024 POWERISE Corporation. All rights reserved.
           </Typography>
-          <Box sx={{ display: 'flex', gap: 3 }}>
+          <Box sx={{ display: 'flex', gap: 4 }}>
             <MuiLink
               component={Link}
               href="/privacy"
@@ -163,8 +184,11 @@ export const Footer: React.FC = () => {
               underline="none"
               sx={{
                 fontSize: '0.875rem',
-                opacity: 0.7,
-                '&:hover': { opacity: 1 },
+                color: theme.palette.text.secondary,
+                '&:hover': { 
+                  color: theme.palette.secondary.main,
+                  textDecoration: 'underline',
+                },
               }}
             >
               プライバシーポリシー
@@ -176,8 +200,11 @@ export const Footer: React.FC = () => {
               underline="none"
               sx={{
                 fontSize: '0.875rem',
-                opacity: 0.7,
-                '&:hover': { opacity: 1 },
+                color: theme.palette.text.secondary,
+                '&:hover': { 
+                  color: theme.palette.secondary.main,
+                  textDecoration: 'underline',
+                },
               }}
             >
               利用規約

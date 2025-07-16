@@ -2,7 +2,11 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #2c3e50;
+  --text-secondary: #5a6c7d;
+  --border-color: rgba(44, 62, 80, 0.08);
+  --accent-blue: #4a90b8;
+  --accent-blue-light: rgba(74, 144, 184, 0.1);
 }
 
 @theme inline {
@@ -12,15 +16,148 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic Medium", "Meiryo", "MS Gothic", sans-serif;
+  line-height: 1.8;
+  letter-spacing: 0.02em;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
+
+* {
+  box-sizing: border-box;
+}
+
+/* スクロールバーのスタイリング */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f5f5f5;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-secondary);
+}
+
+/* フォーカス状態の改善 */
+button:focus,
+a:focus,
+input:focus,
+textarea:focus {
+  outline: 2px solid #4a90b8;
+  outline-offset: 2px;
+}
+
+/* 写真プレースホルダー用スタイル */
+.photo-placeholder {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #f8f9fa 0%, #f0f2f5 100%);
+  border: 1px solid var(--accent-blue-light);
+  transition: all 0.3s ease-in-out;
+}
+
+.photo-placeholder::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 30% 30%, var(--accent-blue-light) 0%, transparent 50%),
+    linear-gradient(135deg, var(--accent-blue-light) 0%, transparent 100%);
+  opacity: 0.6;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.photo-placeholder:hover::before {
+  opacity: 0.8;
+}
+
+/* 業務イメージ写真プレースホルダー */
+.business-image-placeholder {
+  background: 
+    linear-gradient(45deg, transparent 40%, var(--accent-blue-light) 50%, transparent 60%),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 20px,
+      rgba(74, 144, 184, 0.05) 20px,
+      rgba(74, 144, 184, 0.05) 40px
+    ),
+    linear-gradient(135deg, #f8f9fa 0%, #f0f2f5 100%);
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0%, 100% {
+    background-position: -200px 0, 0 0, 0 0;
+  }
+  50% {
+    background-position: 200px 0, 0 0, 0 0;
+  }
+}
+
+/* ポートレート写真プレースホルダー */
+.portrait-placeholder {
+  background: 
+    radial-gradient(circle at 30% 30%, var(--accent-blue-light) 0%, transparent 50%),
+    linear-gradient(135deg, rgba(74, 144, 184, 0.05) 0%, transparent 100%),
+    linear-gradient(135deg, #f8f9fa 0%, #f0f2f5 100%);
+  box-shadow: 0 8px 32px rgba(44, 62, 80, 0.08);
+  border: 2px solid var(--accent-blue-light);
+}
+
+.portrait-placeholder:hover {
+  box-shadow: 0 12px 48px rgba(44, 62, 80, 0.12);
+  border-color: var(--accent-blue);
+}
+
+/* スナップ写真プレースホルダー */
+.snapshot-placeholder {
+  background: linear-gradient(135deg, #f8f9fa 0%, #f0f2f5 100%);
+  border: 1px solid var(--accent-blue-light);
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+}
+
+.snapshot-placeholder:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 32px rgba(44, 62, 80, 0.12);
+  border-color: var(--accent-blue);
+}
+
+/* 実際の写真配置のガイドライン（コメント）
+===============================================
+
+1. 業務イメージ写真:
+   - 推奨サイズ: 800x600px 以上
+   - フォーマット: JPG, WebP
+   - 内容: プロフェッショナルな業務シーン（会議、分析作業、現場視察など）
+   - 構図: 手元や資料に焦点、顔は控えめに
+
+2. ポートレート写真:
+   - 推奨サイズ: 400x500px 以上
+   - フォーマット: PNG（背景透明）, JPG
+   - 内容: 自然な笑顔の社員ポートレート
+   - 処理: 背景切り抜き、少し傾けた配置
+
+3. スナップ写真:
+   - 推奨サイズ: 300x300px 以上
+   - フォーマット: JPG, WebP
+   - 内容: オフィスの日常風景、チームの交流
+   - 処理: 角丸（border-radius: 16px）
+
+=============================================== */

@@ -58,15 +58,15 @@ export const Header: React.FC = () => {
           display: 'flex', 
           justifyContent: 'space-between',
           alignItems: 'center',
-          p: 3,
-          borderBottom: `1px solid ${theme.palette.grey[200]}`,
+          p: 4,
+          borderBottom: `1px solid ${theme.palette.divider}`,
         }}
       >
         <Typography
           variant="h6"
           sx={{
             fontWeight: 600,
-            color: theme.palette.primary.main,
+            color: theme.palette.text.primary,
           }}
         >
           Menu
@@ -76,19 +76,18 @@ export const Header: React.FC = () => {
         </IconButton>
       </Box>
       
-      <Box sx={{ p: 2 }}>
+      <Box sx={{ p: 3 }}>
         {navigationItems.map((item) => (
           <ListItem 
             key={item.href} 
             component={Link} 
             href={item.href}
             sx={{
-              borderRadius: 2,
-              mb: 1,
+              borderRadius: 4,
+              mb: 2,
               transition: 'all 0.2s ease-in-out',
               '&:hover': {
-                backgroundColor: theme.palette.primary.main + '08',
-                transform: 'translateX(4px)',
+                backgroundColor: 'rgba(74, 144, 184, 0.04)',
               },
             }}
           >
@@ -102,7 +101,7 @@ export const Header: React.FC = () => {
           </ListItem>
         ))}
         
-        <Divider sx={{ my: 3 }} />
+        <Divider sx={{ my: 4 }} />
         
         {/* 認証ボタン（モバイル） */}
         <Box sx={{ px: 2 }}>
@@ -146,9 +145,16 @@ export const Header: React.FC = () => {
 
   return (
     <>
-      <AppBar position="sticky" elevation={0}>
+      <AppBar 
+        position="sticky" 
+        elevation={0}
+        sx={{
+          backgroundColor: '#FFFFFF',
+          color: theme.palette.text.primary,
+        }}
+      >
         <Container maxWidth="lg">
-          <Toolbar sx={{ justifyContent: 'space-between', py: 1 }}>
+          <Toolbar sx={{ justifyContent: 'space-between', py: 2 }}>
             {/* 左端：会社名ロゴタイプ */}
             <Box component={Link} href="/" sx={{ textDecoration: 'none' }}>
               <Box>
@@ -156,7 +162,7 @@ export const Header: React.FC = () => {
                   variant="h6"
                   sx={{
                     fontWeight: 700,
-                    color: 'white',
+                    color: theme.palette.text.primary,
                     fontSize: { xs: '0.9rem', sm: '1.1rem' },
                     lineHeight: 1.2,
                     letterSpacing: '0.02em',
@@ -167,7 +173,7 @@ export const Header: React.FC = () => {
                 <Typography
                   variant="caption"
                   sx={{
-                    color: 'rgba(255, 255, 255, 0.8)',
+                    color: theme.palette.text.secondary,
                     fontSize: { xs: '0.7rem', sm: '0.8rem' },
                     fontWeight: 400,
                     letterSpacing: '0.1em',
@@ -180,23 +186,23 @@ export const Header: React.FC = () => {
 
             {/* デスクトップナビゲーション（中央） */}
             {!isMobile && (
-              <Box sx={{ display: 'flex', gap: 0.5 }}>
+              <Box sx={{ display: 'flex', gap: 1 }}>
                 {navigationItems.map((item) => (
                   <Button
                     key={item.href}
                     component={Link}
                     href={item.href}
-                    color="inherit"
                     sx={{
                       textTransform: 'none',
                       fontWeight: 400,
                       px: 3,
-                      py: 1.5,
-                      borderRadius: 2,
+                      py: 2,
+                      borderRadius: 4,
+                      color: theme.palette.text.primary,
                       transition: 'all 0.2s ease-in-out',
                       '&:hover': {
-                        backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                        transform: 'translateY(-1px)',
+                        backgroundColor: 'rgba(74, 144, 184, 0.04)',
+                        color: theme.palette.secondary.main,
                       },
                     }}
                   >
@@ -207,7 +213,7 @@ export const Header: React.FC = () => {
             )}
 
             {/* 右端：メニューボタン（モバイル）または認証ボタン（デスクトップ） */}
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
               {!isMobile && (
                 <>
                   {user ? (
@@ -219,11 +225,10 @@ export const Header: React.FC = () => {
                         variant="outlined"
                         size="small"
                         sx={{
-                          color: 'white',
-                          borderColor: 'rgba(255, 255, 255, 0.5)',
+                          color: theme.palette.secondary.main,
+                          borderColor: theme.palette.secondary.main,
                           '&:hover': {
-                            backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                            borderColor: 'white',
+                            backgroundColor: 'rgba(74, 144, 184, 0.04)',
                           },
                         }}
                       >
@@ -234,9 +239,10 @@ export const Header: React.FC = () => {
                         startIcon={<LogoutIcon />}
                         size="small"
                         sx={{ 
-                          color: 'white',
+                          color: theme.palette.text.secondary,
                           '&:hover': {
-                            backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                            backgroundColor: 'rgba(74, 144, 184, 0.04)',
+                            color: theme.palette.secondary.main,
                           },
                         }}
                       >
@@ -251,11 +257,10 @@ export const Header: React.FC = () => {
                       variant="outlined"
                       size="small"
                       sx={{
-                        color: 'white',
-                        borderColor: 'rgba(255, 255, 255, 0.5)',
+                        color: theme.palette.secondary.main,
+                        borderColor: theme.palette.secondary.main,
                         '&:hover': {
-                          backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                          borderColor: 'white',
+                          backgroundColor: 'rgba(74, 144, 184, 0.04)',
                         },
                       }}
                     >
@@ -272,12 +277,13 @@ export const Header: React.FC = () => {
                 size="small"
                 startIcon={<MenuIcon />}
                 sx={{
-                  color: 'white',
-                  borderColor: 'rgba(255, 255, 255, 0.5)',
+                  color: theme.palette.text.primary,
+                  borderColor: theme.palette.divider,
                   minWidth: { xs: '80px', sm: '90px' },
                   '&:hover': {
-                    backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                    borderColor: 'white',
+                    backgroundColor: 'rgba(74, 144, 184, 0.04)',
+                    borderColor: theme.palette.secondary.main,
+                    color: theme.palette.secondary.main,
                   },
                 }}
               >
@@ -301,7 +307,7 @@ export const Header: React.FC = () => {
           '& .MuiDrawer-paper': { 
             boxSizing: 'border-box', 
             width: 280,
-            boxShadow: '0 8px 40px rgba(27, 54, 93, 0.15)',
+            boxShadow: '0 4px 24px rgba(44, 62, 80, 0.08)',
           },
         }}
       >

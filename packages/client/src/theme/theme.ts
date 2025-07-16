@@ -13,105 +13,107 @@ declare module '@mui/material/styles' {
 export const theme = createTheme({
   palette: {
     primary: {
-      main: '#1B365D', // より深く落ち着いたネイビー
-      light: '#4A6B8A',
-      dark: '#0F1F2E',
+      main: '#2C3E50', // ダークグレー（メインテキスト色）
+      light: '#5A6C7D',
+      dark: '#1A252F',
       contrastText: '#FFFFFF',
     },
     secondary: {
-      main: '#5BA4CF', // より落ち着いたスカイブルー
-      light: '#87C1E0',
-      dark: '#3A7AA0',
+      main: '#4A90B8', // 落ち着いた青色（アクセント用）
+      light: '#6BA3C7',
+      dark: '#357299',
       contrastText: '#FFFFFF',
     },
     accent: {
-      main: '#78C000',
-      light: '#88D000',
-      dark: '#669900',
+      main: '#5BA4CF', // より明るい青（ボタンなど）
+      light: '#78B5D6',
+      dark: '#4A90B8',
       contrastText: '#FFFFFF',
     },
     text: {
-      primary: '#2C3E50', // より濃いグレー（デザイン要件の「濃いグレー」）
-      secondary: '#5A6C7D', // より知的な印象のグレー
+      primary: '#2C3E50', // ダークグレー（メインテキスト）
+      secondary: '#5A6C7D', // ミディアムグレー（サブテキスト）
       disabled: '#9FB6CE',
     },
     background: {
-      default: '#FFFFFF', // クリーンな白背景
-      paper: '#FAFBFC', // ほんのりグレーがかった白
+      default: '#FFFFFF', // 純白
+      paper: '#FFFFFF', // カードも純白
     },
     grey: {
-      50: '#F8F9FA',
-      100: '#E9ECEF',
-      200: '#DEE2E6',
-      300: '#CED4DA',
-      400: '#ADB5BD',
-      500: '#6C757D',
-      600: '#495057',
-      700: '#343A40',
-      800: '#212529',
-      900: '#1B365D',
+      50: '#FAFAFA',
+      100: '#F5F5F5',
+      200: '#EEEEEE',
+      300: '#E0E0E0',
+      400: '#BDBDBD',
+      500: '#9E9E9E',
+      600: '#757575',
+      700: '#616161',
+      800: '#424242',
+      900: '#2C3E50',
     },
+    divider: 'rgba(44, 62, 80, 0.08)',
   },
   typography: {
-    // ゴシック体に統一（日本語向け）
+    // よりシンプルなフォント設定
     fontFamily: '"Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic Medium", "Meiryo", "MS Gothic", sans-serif',
     h1: {
       fontFamily: '"Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic Medium", "Meiryo", "MS Gothic", sans-serif',
       fontWeight: 700,
       fontSize: '3rem',
-      lineHeight: 1.1,
-      letterSpacing: '-0.02em',
-      marginBottom: '2rem',
+      lineHeight: 1.2,
+      letterSpacing: '-0.01em',
+      color: '#2C3E50',
     },
     h2: {
       fontFamily: '"Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic Medium", "Meiryo", "MS Gothic", sans-serif',
       fontWeight: 600,
       fontSize: '2.25rem',
-      lineHeight: 1.2,
-      letterSpacing: '-0.01em',
-      marginBottom: '1.5rem',
+      lineHeight: 1.3,
+      color: '#2C3E50',
     },
     h3: {
       fontFamily: '"Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic Medium", "Meiryo", "MS Gothic", sans-serif',
       fontWeight: 600,
       fontSize: '1.875rem',
-      lineHeight: 1.3,
-      marginBottom: '1.25rem',
+      lineHeight: 1.4,
+      color: '#2C3E50',
     },
     h4: {
       fontFamily: '"Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic Medium", "Meiryo", "MS Gothic", sans-serif',
       fontWeight: 600,
       fontSize: '1.5rem',
-      lineHeight: 1.35,
-      marginBottom: '1rem',
+      lineHeight: 1.4,
+      color: '#2C3E50',
     },
     h5: {
       fontFamily: '"Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic Medium", "Meiryo", "MS Gothic", sans-serif',
       fontWeight: 600,
       fontSize: '1.25rem',
-      lineHeight: 1.4,
-      marginBottom: '0.75rem',
+      lineHeight: 1.5,
+      color: '#2C3E50',
     },
     h6: {
       fontFamily: '"Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic Medium", "Meiryo", "MS Gothic", sans-serif',
       fontWeight: 600,
       fontSize: '1.125rem',
-      lineHeight: 1.45,
-      marginBottom: '0.5rem',
+      lineHeight: 1.5,
+      color: '#2C3E50',
     },
     body1: {
       fontFamily: '"Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic Medium", "Meiryo", "MS Gothic", sans-serif',
       fontWeight: 400,
       fontSize: '1rem',
-      lineHeight: 1.8, // より広めの行間でゆったりとした印象
+      lineHeight: 1.9, // より広い行間
       letterSpacing: '0.02em',
+      color: '#2C3E50',
     },
     body2: {
       fontFamily: '"Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic Medium", "Meiryo", "MS Gothic", sans-serif',
       fontWeight: 400,
       fontSize: '0.875rem',
-      lineHeight: 1.7,
+      lineHeight: 1.8,
       letterSpacing: '0.01em',
+      color: '#5A6C7D',
     },
     button: {
       fontFamily: '"Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic Medium", "Meiryo", "MS Gothic", sans-serif',
@@ -123,35 +125,38 @@ export const theme = createTheme({
   },
   spacing: 8,
   shape: {
-    borderRadius: 6, // より控えめな角丸
+    borderRadius: 4, // より控えめな角丸
   },
   components: {
     MuiButton: {
       styleOverrides: {
         root: {
-          borderRadius: 6,
+          borderRadius: 4,
           textTransform: 'none',
           fontWeight: 500,
-          padding: '12px 32px', // より豊富なパディング
+          padding: '16px 40px', // より大きなパディング
           boxShadow: 'none',
           minHeight: 48,
+          transition: 'all 0.2s ease-in-out',
           '&:hover': {
-            boxShadow: '0 4px 20px rgba(27, 54, 93, 0.15)',
-            transform: 'translateY(-1px)',
-            transition: 'all 0.2s ease-in-out',
+            boxShadow: 'none',
+            transform: 'none',
           },
         },
         contained: {
-          background: 'linear-gradient(135deg, #1B365D 0%, #2A4A73 100%)',
+          backgroundColor: '#4A90B8',
+          color: '#FFFFFF',
           '&:hover': {
-            background: 'linear-gradient(135deg, #0F1F2E 0%, #1B365D 100%)',
+            backgroundColor: '#357299',
           },
         },
         outlined: {
-          borderWidth: 2,
+          borderWidth: 1,
+          borderColor: '#4A90B8',
+          color: '#4A90B8',
           '&:hover': {
-            borderWidth: 2,
-            backgroundColor: 'rgba(27, 54, 93, 0.04)',
+            borderWidth: 1,
+            backgroundColor: 'rgba(74, 144, 184, 0.04)',
           },
         },
       },
@@ -159,12 +164,12 @@ export const theme = createTheme({
     MuiCard: {
       styleOverrides: {
         root: {
-          borderRadius: 12,
-          boxShadow: '0 2px 24px rgba(27, 54, 93, 0.08)',
-          border: '1px solid rgba(27, 54, 93, 0.08)',
-          padding: 8, // 内部余白を追加
+          borderRadius: 8,
+          boxShadow: 'none',
+          border: '1px solid rgba(44, 62, 80, 0.08)',
+          backgroundColor: '#FFFFFF',
           '&:hover': {
-            boxShadow: '0 8px 40px rgba(27, 54, 93, 0.12)',
+            boxShadow: '0 4px 24px rgba(44, 62, 80, 0.08)',
             transform: 'translateY(-2px)',
             transition: 'all 0.3s ease-in-out',
           },
@@ -174,9 +179,9 @@ export const theme = createTheme({
     MuiCardContent: {
       styleOverrides: {
         root: {
-          padding: '32px !important', // より豊富なカード内パディング
+          padding: '48px !important', // 非常に豊富なパディング
           '&:last-child': {
-            paddingBottom: '32px !important',
+            paddingBottom: '48px !important',
           },
         },
       },
@@ -184,17 +189,18 @@ export const theme = createTheme({
     MuiAppBar: {
       styleOverrides: {
         root: {
-          background: 'linear-gradient(135deg, #1B365D 0%, #2A4A73 100%)',
-          boxShadow: '0 2px 20px rgba(27, 54, 93, 0.15)',
-          backdropFilter: 'blur(8px)',
+          backgroundColor: '#FFFFFF',
+          color: '#2C3E50',
+          boxShadow: '0 1px 3px rgba(44, 62, 80, 0.08)',
+          borderBottom: '1px solid rgba(44, 62, 80, 0.08)',
         },
       },
     },
     MuiContainer: {
       styleOverrides: {
         root: {
-          paddingLeft: '32px !important', // より豊富な左右余白
-          paddingRight: '32px !important',
+          paddingLeft: '48px !important', // 非常に豊富な左右余白
+          paddingRight: '48px !important',
           '@media (max-width: 600px)': {
             paddingLeft: '24px !important',
             paddingRight: '24px !important',
@@ -205,7 +211,7 @@ export const theme = createTheme({
     MuiToolbar: {
       styleOverrides: {
         root: {
-          minHeight: '80px !important', // より高いヘッダー
+          minHeight: '80px !important',
           padding: '0 !important',
         },
       },
@@ -213,14 +219,14 @@ export const theme = createTheme({
     MuiTypography: {
       styleOverrides: {
         root: {
-          marginBottom: 0, // デフォルトのマージンをリセット
+          marginBottom: 0,
         },
       },
     },
     MuiChip: {
       styleOverrides: {
         root: {
-          borderRadius: 20,
+          borderRadius: 4,
         },
       },
     },
@@ -228,6 +234,14 @@ export const theme = createTheme({
       styleOverrides: {
         root: {
           borderRadius: 8,
+          boxShadow: 'none',
+        },
+      },
+    },
+    MuiDivider: {
+      styleOverrides: {
+        root: {
+          borderColor: 'rgba(44, 62, 80, 0.08)',
         },
       },
     },
