@@ -80,7 +80,7 @@ export const Footer: React.FC = () => {
                 持続可能な社会の実現を目指します。
               </Typography>
               <Typography variant="body2" sx={{ opacity: 0.8 }}>
-                株式会社パワライズ
+                一般社団法人パワライズ
                 <br />
                 〒100-0001 東京都千代田区千代田1-1-1
                 <br />

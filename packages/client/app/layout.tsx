@@ -28,7 +28,7 @@ const roboto = Roboto({
 
 export const metadata: Metadata = {
   title: "POWERISE - エネルギーとインフラの力で持続可能な社会を",
-  description: "株式会社パワライズは、エネルギー事業、インフラ事業、環境ソリューション、コンサルティングを通じて持続可能な社会の実現を目指しています。",
+  description: "一般社団法人パワライズは、エネルギー事業、インフラ事業、環境ソリューション、コンサルティングを通じて持続可能な社会の実現を目指しています。",
 };
 
 export default function RootLayout({

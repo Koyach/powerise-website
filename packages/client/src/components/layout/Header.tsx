@@ -15,6 +15,7 @@ import {
   ListItemText,
   useMediaQuery,
   useTheme,
+  Divider,
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
@@ -51,19 +52,95 @@ export const Header: React.FC = () => {
   };
 
   const drawer = (
-    <Box sx={{ width: 250 }}>
-      <Box sx={{ display: 'flex', justifyContent: 'flex-end', p: 1 }}>
-        <IconButton onClick={handleDrawerToggle}>
+    <Box sx={{ width: 280, height: '100%', backgroundColor: 'white' }}>
+      <Box 
+        sx={{ 
+          display: 'flex', 
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          p: 3,
+          borderBottom: `1px solid ${theme.palette.grey[200]}`,
+        }}
+      >
+        <Typography
+          variant="h6"
+          sx={{
+            fontWeight: 600,
+            color: theme.palette.primary.main,
+          }}
+        >
+          Menu
+        </Typography>
+        <IconButton onClick={handleDrawerToggle} size="small">
           <CloseIcon />
         </IconButton>
       </Box>
-      <List>
+      
+      <Box sx={{ p: 2 }}>
         {navigationItems.map((item) => (
-          <ListItem key={item.href} component={Link} href={item.href}>
-            <ListItemText primary={item.label} />
+          <ListItem 
+            key={item.href} 
+            component={Link} 
+            href={item.href}
+            sx={{
+              borderRadius: 2,
+              mb: 1,
+              transition: 'all 0.2s ease-in-out',
+              '&:hover': {
+                backgroundColor: theme.palette.primary.main + '08',
+                transform: 'translateX(4px)',
+              },
+            }}
+          >
+            <ListItemText 
+              primary={item.label}
+              primaryTypographyProps={{
+                fontWeight: 500,
+                color: theme.palette.text.primary,
+              }}
+            />
           </ListItem>
         ))}
-      </List>
+        
+        <Divider sx={{ my: 3 }} />
+        
+        {/* 認証ボタン（モバイル） */}
+        <Box sx={{ px: 2 }}>
+          {user ? (
+            <>
+              <Button
+                component={Link}
+                href="/admin"
+                startIcon={<AdminPanelSettingsIcon />}
+                fullWidth
+                variant="outlined"
+                sx={{ mb: 2, justifyContent: 'flex-start' }}
+              >
+                管理画面
+              </Button>
+              <Button
+                onClick={handleLogout}
+                startIcon={<LogoutIcon />}
+                fullWidth
+                sx={{ justifyContent: 'flex-start' }}
+              >
+                ログアウト
+              </Button>
+            </>
+          ) : (
+            <Button
+              component={Link}
+              href="/login"
+              startIcon={<LoginIcon />}
+              fullWidth
+              variant="outlined"
+              sx={{ justifyContent: 'flex-start' }}
+            >
+              ログイン
+            </Button>
+          )}
+        </Box>
+      </Box>
     </Box>
   );
 
@@ -71,27 +148,39 @@ export const Header: React.FC = () => {
     <>
       <AppBar position="sticky" elevation={0}>
         <Container maxWidth="lg">
-          <Toolbar sx={{ minHeight: 72 }}>
-            {/* ロゴ */}
-            <Typography
-              variant="h5"
-              component={Link}
-              href="/"
-              sx={{
-                flexGrow: isMobile ? 1 : 0,
-                fontFamily: 'Montserrat, sans-serif',
-                fontWeight: 700,
-                color: 'inherit',
-                textDecoration: 'none',
-                mr: 4,
-              }}
-            >
-              POWERISE
-            </Typography>
+          <Toolbar sx={{ justifyContent: 'space-between', py: 1 }}>
+            {/* 左端：会社名ロゴタイプ */}
+            <Box component={Link} href="/" sx={{ textDecoration: 'none' }}>
+              <Box>
+                <Typography
+                  variant="h6"
+                  sx={{
+                    fontWeight: 700,
+                    color: 'white',
+                    fontSize: { xs: '0.9rem', sm: '1.1rem' },
+                    lineHeight: 1.2,
+                    letterSpacing: '0.02em',
+                  }}
+                >
+                  一般社団法人パワライズ
+                </Typography>
+                <Typography
+                  variant="caption"
+                  sx={{
+                    color: 'rgba(255, 255, 255, 0.8)',
+                    fontSize: { xs: '0.7rem', sm: '0.8rem' },
+                    fontWeight: 400,
+                    letterSpacing: '0.1em',
+                  }}
+                >
+                  POWERISE
+                </Typography>
+              </Box>
+            </Box>
 
-            {/* デスクトップナビゲーション */}
+            {/* デスクトップナビゲーション（中央） */}
             {!isMobile && (
-              <Box sx={{ flexGrow: 1, display: 'flex', gap: 1 }}>
+              <Box sx={{ display: 'flex', gap: 0.5 }}>
                 {navigationItems.map((item) => (
                   <Button
                     key={item.href}
@@ -100,12 +189,14 @@ export const Header: React.FC = () => {
                     color="inherit"
                     sx={{
                       textTransform: 'none',
-                      fontWeight: 500,
+                      fontWeight: 400,
                       px: 3,
-                      py: 1,
-                      borderRadius: 1,
+                      py: 1.5,
+                      borderRadius: 2,
+                      transition: 'all 0.2s ease-in-out',
                       '&:hover': {
                         backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                        transform: 'translateY(-1px)',
                       },
                     }}
                   >
@@ -115,97 +206,103 @@ export const Header: React.FC = () => {
               </Box>
             )}
 
-            {/* 認証ボタン（デスクトップ） */}
-            {!isMobile && (
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                {user ? (
-                  <>
+            {/* 右端：メニューボタン（モバイル）または認証ボタン（デスクトップ） */}
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              {!isMobile && (
+                <>
+                  {user ? (
+                    <>
+                      <Button
+                        component={Link}
+                        href="/admin"
+                        startIcon={<AdminPanelSettingsIcon />}
+                        variant="outlined"
+                        size="small"
+                        sx={{
+                          color: 'white',
+                          borderColor: 'rgba(255, 255, 255, 0.5)',
+                          '&:hover': {
+                            backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                            borderColor: 'white',
+                          },
+                        }}
+                      >
+                        管理画面
+                      </Button>
+                      <Button
+                        onClick={handleLogout}
+                        startIcon={<LogoutIcon />}
+                        size="small"
+                        sx={{ 
+                          color: 'white',
+                          '&:hover': {
+                            backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                          },
+                        }}
+                      >
+                        ログアウト
+                      </Button>
+                    </>
+                  ) : (
                     <Button
                       component={Link}
-                      href="/admin"
-                      startIcon={<AdminPanelSettingsIcon />}
+                      href="/login"
+                      startIcon={<LoginIcon />}
                       variant="outlined"
+                      size="small"
                       sx={{
                         color: 'white',
-                        borderColor: 'white',
+                        borderColor: 'rgba(255, 255, 255, 0.5)',
                         '&:hover': {
                           backgroundColor: 'rgba(255, 255, 255, 0.1)',
                           borderColor: 'white',
                         },
                       }}
                     >
-                      管理画面
+                      ログイン
                     </Button>
-                    <Button
-                      onClick={handleLogout}
-                      startIcon={<LogoutIcon />}
-                      sx={{ color: 'white' }}
-                    >
-                      ログアウト
-                    </Button>
-                  </>
-                ) : (
-                  <Button
-                    component={Link}
-                    href="/login"
-                    startIcon={<LoginIcon />}
-                    variant="outlined"
-                    sx={{
-                      color: 'white',
-                      borderColor: 'white',
-                      '&:hover': {
-                        backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                        borderColor: 'white',
-                      },
-                    }}
-                  >
-                    ログイン
-                  </Button>
-                )}
-                <Button
-                  component={Link}
-                  href="/contact"
-                  variant="contained"
-                  sx={{
-                    backgroundColor: theme.palette.secondary.main,
-                    color: 'white',
-                    '&:hover': {
-                      backgroundColor: theme.palette.secondary.dark,
-                    },
-                  }}
-                >
-                  お問い合わせ
-                </Button>
-              </Box>
-            )}
-
-            {/* モバイルメニューボタン */}
-            {isMobile && (
-              <IconButton
-                color="inherit"
-                aria-label="メニューを開く"
-                edge="end"
+                  )}
+                </>
+              )}
+              
+              {/* ハンバーガーメニューボタン */}
+              <Button
                 onClick={handleDrawerToggle}
+                variant="outlined"
+                size="small"
+                startIcon={<MenuIcon />}
+                sx={{
+                  color: 'white',
+                  borderColor: 'rgba(255, 255, 255, 0.5)',
+                  minWidth: { xs: '80px', sm: '90px' },
+                  '&:hover': {
+                    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                    borderColor: 'white',
+                  },
+                }}
               >
-                <MenuIcon />
-              </IconButton>
-            )}
+                Menu
+              </Button>
+            </Box>
           </Toolbar>
         </Container>
       </AppBar>
 
-      {/* モバイルドロワー */}
+      {/* モバイル・デスクトップ共通ドロワー */}
       <Drawer
         variant="temporary"
         anchor="right"
         open={mobileOpen}
         onClose={handleDrawerToggle}
         ModalProps={{
-          keepMounted: true, // Better open performance on mobile.
+          keepMounted: true,
         }}
         sx={{
-          display: { xs: 'block', md: 'none' },
-          '& .MuiDrawer-paper': { boxSizing: 'border-box', width: 250 },
+          '& .MuiDrawer-paper': { 
+            boxSizing: 'border-box', 
+            width: 280,
+            boxShadow: '0 8px 40px rgba(27, 54, 93, 0.15)',
+          },
         }}
       >
         {drawer}
